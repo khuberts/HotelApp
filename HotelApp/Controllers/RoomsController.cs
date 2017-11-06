@@ -1,4 +1,5 @@
-﻿using HotelApp.Models;
+﻿using System;
+using HotelApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -17,9 +18,17 @@ namespace HotelApp.Controllers
         }
 
         // GET: Rooms
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Room.ToListAsync());
+            var rooms = from m in _context.Room
+                            select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                rooms = rooms.Where(s => s.RoomNumber.Contains(searchString));
+            }
+
+            return View(await rooms.ToListAsync());
         }
 
         // GET: Rooms/Details/5
