@@ -11,9 +11,10 @@ using System;
 namespace HotelApp.Data.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107083250_GuestsAndBookings")]
+    partial class GuestsAndBookings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,13 +26,9 @@ namespace HotelApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("EndDate");
-
                     b.Property<int>("GuestId");
 
                     b.Property<int>("RoomId");
-
-                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
 

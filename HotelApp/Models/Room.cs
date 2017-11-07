@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelApp.Models
 {
@@ -10,5 +11,8 @@ namespace HotelApp.Models
         public string RoomNumber { get; set; }
 
         public string Description { get; set; }
+
+        [NotMapped]
+        public string RoomDescription => $"{RoomNumber}: {Description}";
     }
 }
