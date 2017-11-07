@@ -1,10 +1,9 @@
-﻿using System;
+﻿using HotelApp.Data;
 using HotelApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using HotelApp.Data;
 
 namespace HotelApp.Controllers
 {
@@ -18,17 +17,9 @@ namespace HotelApp.Controllers
         }
 
         // GET: Rooms
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            var rooms = from m in _context.Room
-                            select m;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                rooms = rooms.Where(s => s.RoomNumber.Contains(searchString));
-            }
-
-            return View(await rooms.ToListAsync());
+            return View(await _context.Room.ToListAsync());
         }
 
         // GET: Rooms/Details/5
@@ -60,7 +51,7 @@ namespace HotelApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RoomNumber,Description")] Room room)
+        public async Task<IActionResult> Create([Bind("Id,RoomNumber,Description,RoomType,RoomSize")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +83,7 @@ namespace HotelApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RoomNumber,Description")] Room room)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RoomNumber,Description,RoomType,RoomSize")] Room room)
         {
             if (id != room.Id)
             {
