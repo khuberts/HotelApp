@@ -15,12 +15,11 @@ namespace HotelApp.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
-        [Display(Name = "Guest Name")]
-        public int GuestId { get; set; }
-
+        public string ApplicationUserId { get; set; }
+        
         [Required]
-        public Guest Guest { get; set; }
-
+        public ApplicationUser ApplicationUser { get; set; }
+        
         [Display(Name = "Room Number")]
         public int RoomId { get; set; }
 

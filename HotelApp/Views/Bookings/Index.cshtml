@@ -19,7 +19,7 @@
                     @Html.DisplayNameFor(model => model.EndDate)
                 </th>
             <th>
-                @Html.DisplayNameFor(model => model.Guest)
+                @Html.DisplayNameFor(model => model.ApplicationUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Room)
@@ -37,10 +37,10 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Guest.Id)
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Room.Id)
+                @Html.DisplayFor(modelItem => item.Room.RoomNumber)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -12,7 +12,6 @@ namespace HotelApp.Models
         [Display(Name = "Room Number")]
         public string RoomNumber { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         [Required]
@@ -22,6 +21,6 @@ namespace HotelApp.Models
         public RoomSize RoomSize { get; set; }
         
         [NotMapped]
-        public string RoomDescription => $"{RoomNumber}: {Description}";
+        public string RoomDescription => $"{RoomNumber}: {Description} - {RoomType} - {RoomSize}";
     }
 }

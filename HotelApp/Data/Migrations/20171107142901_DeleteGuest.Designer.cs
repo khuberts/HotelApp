@@ -12,9 +12,10 @@ using System;
 namespace HotelApp.Data.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107142901_DeleteGuest")]
+    partial class DeleteGuest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

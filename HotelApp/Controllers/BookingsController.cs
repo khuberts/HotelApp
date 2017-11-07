@@ -1,10 +1,12 @@
-﻿using HotelApp.Data;
-using HotelApp.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+using HotelApp.Data;
+using HotelApp.Models;
 
 namespace HotelApp.Controllers
 {
@@ -20,7 +22,7 @@ namespace HotelApp.Controllers
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
-            var hotelAppContext = _context.Booking.Include(b => b.Guest).Include(b => b.Room);
+            var hotelAppContext = _context.Booking.Include(b => b.ApplicationUser).Include(b => b.Room);
             return View(await hotelAppContext.ToListAsync());
         }
 
@@ -33,7 +35,7 @@ namespace HotelApp.Controllers
             }
 
             var booking = await _context.Booking
-                .Include(b => b.Guest)
+                .Include(b => b.ApplicationUser)
                 .Include(b => b.Room)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (booking == null)
@@ -47,8 +49,8 @@ namespace HotelApp.Controllers
         // GET: Bookings/Create
         public IActionResult Create()
         {
-            ViewData["GuestId"] = new SelectList(_context.Guest, "Id", "FullName");
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "RoomDescription");
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "RoomNumber");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace HotelApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,GuestId,RoomId")] Booking booking)
+        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,ApplicationUserId,RoomId")] Booking booking)
         {
             if (ModelState.IsValid)
             {
@@ -65,8 +67,8 @@ namespace HotelApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GuestId"] = new SelectList(_context.Guest, "Id", "Id", booking.GuestId);
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", booking.RoomId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", booking.ApplicationUserId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "RoomNumber", booking.RoomId);
             return View(booking);
         }
 
@@ -83,8 +85,8 @@ namespace HotelApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["GuestId"] = new SelectList(_context.Guest, "Id", "Id", booking.GuestId);
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", booking.RoomId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", booking.ApplicationUserId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "RoomNumber", booking.RoomId);
             return View(booking);
         }
 
@@ -93,7 +95,7 @@ namespace HotelApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,GuestId,RoomId")] Booking booking)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,ApplicationUserId,RoomId")] Booking booking)
         {
             if (id != booking.Id)
             {
@@ -120,8 +122,8 @@ namespace HotelApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GuestId"] = new SelectList(_context.Guest, "Id", "Id", booking.GuestId);
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", booking.RoomId);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", booking.ApplicationUserId);
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "RoomNumber", booking.RoomId);
             return View(booking);
         }
 
@@ -134,7 +136,7 @@ namespace HotelApp.Controllers
             }
 
             var booking = await _context.Booking
-                .Include(b => b.Guest)
+                .Include(b => b.ApplicationUser)
                 .Include(b => b.Room)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (booking == null)

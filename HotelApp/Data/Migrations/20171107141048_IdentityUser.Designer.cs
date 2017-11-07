@@ -12,9 +12,10 @@ using System;
 namespace HotelApp.Data.Migrations
 {
     [DbContext(typeof(HotelAppContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171107141048_IdentityUser")]
+    partial class IdentityUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,12 +36,6 @@ namespace HotelApp.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -83,10 +78,9 @@ namespace HotelApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired();
-
                     b.Property<DateTime>("EndDate");
+
+                    b.Property<int>("GuestId");
 
                     b.Property<int>("RoomId");
 
@@ -94,11 +88,27 @@ namespace HotelApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("GuestId");
 
                     b.HasIndex("RoomId");
 
                     b.ToTable("Booking");
+                });
+
+            modelBuilder.Entity("HotelApp.Models.Guest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FirstName")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Guest");
                 });
 
             modelBuilder.Entity("HotelApp.Models.Room", b =>
@@ -230,9 +240,9 @@ namespace HotelApp.Data.Migrations
 
             modelBuilder.Entity("HotelApp.Models.Booking", b =>
                 {
-                    b.HasOne("HotelApp.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("HotelApp.Models.Guest", "Guest")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HotelApp.Models.Room", "Room")
