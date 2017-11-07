@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using HotelApp.Models;
 
 namespace HotelApp.Data
 {
@@ -10,5 +11,7 @@ namespace HotelApp.Data
         }
 
         public DbSet<HotelApp.Models.Room> Room { get; set; }
+
+        public DbSet<HotelApp.Models.Guest> Guest { get; set; }
     }
 }
